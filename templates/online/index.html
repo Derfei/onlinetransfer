@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://vjs.zencdn.net/7.2.3/video-js.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" rel="stylesheet">
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+    <script>
+        $(function(){
+           setInterval(getPre, 100);
+           function getPre(){
+              $.post("getpreImage/", function(data, status){
+                document.getElementById("preImage").src = data;});
+              $.post("getprocessedImage/", function(data, status){
+                document.getElementById("processedImage").src = data;});
+              $.post("getVideoPoster/", function(data, status){
+                document.getElementById("my-video").poster.src = data;});
+            $.post("getProgress/", function(data, status){
+                $('#example1').progress({
+                   percent: data,
+                   text: {
+                        active: data + '% 渲染完成'
+                    }
+                });
+            });
+           }
+        })
+
+    </script>
+
+    <script type="text/javascript">
+
+  //切换视频
+
+    function changeVideo(type){
+
+      var div_01 = $("#div_01")[0];
+
+      var div_02 = $("#div_02")[0];
+
+      if(type == 1){
+
+        div_01.style = "display:block";
+
+        div_02.style = "display:none";
+
+        //如果video_02正在播放，切换时则暂停2视频
+
+        if (!video_02.paused){
+
+          video_02.pause();
+
+        }
+
+        if(video_01.paused){
+
+          video_01.play();
+
+        }
+
+      }else{
+
+        div_01.style = "display:none";
+
+        div_02.style = "display:block";
+
+        //如果video_01正在播放，切换时则暂停2视频
+
+        if (!video_01.paused){
+
+          video_01.pause();
+
+        }
+
+        //如果video_02未播放，切换时则播放1视频
+
+        if(video_02.paused){
+
+          video_02.play();
+
+        }
+
+      }
+
+    };
+
+  </script>
+    <title>在线视频风格迁移</title>
+</head>
+<body>
+
+    <div  style="width:100%; height:300px; background-color: #FFC1C1; margin:0cm 0cm 1cm 0cm;">
+    </div>
+	<div class="ui four column grid">
+	    <div class="one column row" align="center">
+		      <div class="column">
+                  <form class="ui fluid form" method="post" action="/index/" enctype="multipart/form-data">
+                    <div class="inline field" align="center">
+                        <div class="ui right pointing black basic label">
+                            请输入需要渲染的视屏文件:
+                        </div>
+                        <input type="file" class="ui input" name="file">
+                        <input type="submit" class="ui input" value="submit">
+
+                    </div>
+              </form>
+              </div>
+		</div>
+
+        <div class="three column row" align="center" style="width:100%">
+            <div class="four wide column" align="center">
+                <div class="ui fluid card">
+                    <div class="image">
+                        <img id="preImage" class="ui large rounded image">
+                    </div>
+                    <div class="content" align="center">
+                        <a class="header">转换前的内容</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="eight wide column">
+               <div class="ui fluid card" align="center">
+                    <!--<video id="my-video" class="video-js" controls preload="auto"  style="width:100%; height:600px;"-->
+                       <!--data-setup="{}">-->
+                        <!--<source  src="media/content.mp4" type='video/mp4'>-->
+                        <!--<p class="vjs-no-js">-->
+                          <!--<a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>-->
+                        <!--</p>-->
+                    <!--</video>-->
+                   <!--<script src="https://vjs.zencdn.net/7.2.3/video.js"></script>-->
+
+                   <div class="ui teal progress" id="example1" data-percent="0" align="left">
+                      <div class="bar"></div>
+                      <div class="label">0% 渲染完成</div>
+                   </div>
+                    <div style="color:#8B2323;font-size: 18px;">
+
+                      <input type="submit" value="转换前" onClick="changeVideo(1)"/>
+
+                      <input type="submit" value="转换后" onClick="changeVideo(2)"/>
+
+                    </div>
+
+                      <div  class='video-container'>
+
+                        <div id="div_01">
+
+                         <video id="video_01" src="media/content.mp4" controls="controls">
+
+                          your browser does not support the video tag
+
+                          </video>
+
+                        </div>
+
+                        <div id="div_02" style="display:none;">
+
+                          <video id="video_02"  src="media/content_transfer.mp4" controls="controls">
+
+                          your browser does not support the video tag
+
+                          </video>
+
+                        </div>
+
+                      </div>
+
+               </div>
+            </div>
+
+            <div class="four wide column" align="center">
+                <div class="ui fluid card">
+                    <div class="image">
+                        <img id="processedImage" class="ui large rounded image">
+                    </div>
+                    <div class="content" align="center">
+                        <a class="ui  header">转换后的内容</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+	</div>
+
+
+</body>
+</html>
