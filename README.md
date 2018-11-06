@@ -16,5 +16,4 @@
 
 ## 联系方式
 * QQ: 2944153631
-* Wechat: 18473839920
 * Email: longyiyuan@outlook.com
