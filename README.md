@@ -15,5 +15,4 @@
 ![](https://i.imgur.com/zie6p0B.jpg)
 
 ## 联系方式
-* QQ: 2944153631
 * Email: longyiyuan@outlook.com
